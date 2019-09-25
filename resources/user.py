@@ -16,11 +16,8 @@ class UserResource(Resource):
 
         return {
                 'id': user.id,
-                'id_company': user.id_company,
-                'company_name': user.company.name,
                 'name': user.name,
                 'email': user.email,
-                'roles': user.roles,
                 'active': user.active
         }
 
@@ -50,22 +47,38 @@ class UserResource(Resource):
         else:
             return self._list_user()
 
-    @jwt_required
     def post(self):
         item = request.get_json()
 
         if item:
             model = UserModel()
-            model.id = item['id'] if 'id' in item != None else None
-            model.id_company = item['id_company']
             model.name = item['name']
             model.email = item['email']
-            model.roles = item['roles']
-            model.active = item['active'] if 'active' in item else False
-            model.daily_token = model.generate_daily_token()
-            model.token_timestamp = date.today()
+            model.active = item['active'] if 'active' in item else True
+            model.password = item['password']
+            model.timestamp = date.today()
             model.save()
 
-            return '', 204
+            return '', 201
         else:
             return '', 400
+
+        @jwt_required
+        def put(self):
+            item = request.get_json()
+
+            if item:
+                model = UserModel()
+                if 'name' in item:
+                    model.name = item['name']
+                if 'email' in item:
+                    model.email = item['email']
+                if 'active' in item:
+                    model.active = item['active'] if 'active' in item else True
+                if 'password' in item:
+                    model.password = item['password']
+                model.save()
+
+                return '', 204
+            else:
+                return '', 400
