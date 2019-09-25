@@ -30,6 +30,14 @@ class UserModel(db.Model):
     def list_all():
         return UserModel.query.order_by(UserModel.name).all()
 
+    @staticmethod
+    def authenticate(email, password):
+        user = UserModel.query.filter_by(email=email).first()
+        if user and user.active:
+            if sha256.verify(password, user.password):
+                return user
+        return None
+
     def save(self):
         db.session.merge(self)
         db.session.commit()
