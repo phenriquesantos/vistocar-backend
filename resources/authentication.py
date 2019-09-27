@@ -10,9 +10,9 @@ class AuthenticationResource(Resource):
 
     def post(self):
         data = request.get_json()
-        email = data['username'].strip()
+        email = data['email'].strip()
         password = data['password']
-        user = UserModel.authenticate(email, password, token)
+        user = UserModel.authenticate(email, password)
 
         if user:
             access = create_jwt({

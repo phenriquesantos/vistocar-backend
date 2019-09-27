@@ -21,9 +21,11 @@ def initialize_resources(application):
     # Endpoints
     from resources.user import UserResource
     from resources.user_password_recovery import UserPasswordRecoveryResource
+    from resources.authentication import AuthenticationResource
 
     api.add_resource(UserResource, '/api/user')
     api.add_resource(UserPasswordRecoveryResource, '/api/user/recovery')
+    api.add_resource(AuthenticationResource, '/api/login')
 
 
 class HttpCode(IntEnum):

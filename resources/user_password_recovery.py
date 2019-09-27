@@ -15,6 +15,7 @@ class UserPasswordRecoveryResource(Resource):
         email = request.args['email']
         user = UserModel.get_by_email(email)
 
+        if user:
             message = "email com link de recuperação"
 
             email_service = EmailService()
