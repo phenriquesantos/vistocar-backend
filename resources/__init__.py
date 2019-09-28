@@ -22,8 +22,10 @@ def initialize_resources(application):
     from resources.user import UserResource
     from resources.user_password_recovery import UserPasswordRecoveryResource
     from resources.authentication import AuthenticationResource
+    from resources.client import ClientResource
 
     api.add_resource(UserResource, '/api/user')
+    api.add_resource(ClientResource, '/api/client')
     api.add_resource(UserPasswordRecoveryResource, '/api/user/recovery')
     api.add_resource(AuthenticationResource, '/api/login')
 

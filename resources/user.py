@@ -52,9 +52,9 @@ class UserResource(Resource):
             model.timestamp = date.today()
             model.save()
 
-            return '', 201
+            return 'created', 201
         else:
-            return '', 400
+            return 'not created', 400
 
         @jwt_required
         def put(self):
