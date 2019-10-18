@@ -7,7 +7,6 @@ class EmailService:
         self.from_address = environ['SMTP_FROM']
         self.host = environ['SMTP_HOST']
         self.port = 587
-        self.user = environ['SMTP_USER']
         self.password = environ['SMTP_PASSWORD']
         self.server = None
 
@@ -33,4 +32,4 @@ class EmailService:
         self.server.ehlo()
         self.server.starttls()
         self.server.ehlo()
-        self.server.login(self.user, self.password)
+        self.server.login(self.from_address, self.password)
