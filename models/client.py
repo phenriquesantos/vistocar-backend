@@ -1,24 +1,27 @@
 from models import db
 
-import random
-import string
-from datetime import date, datetime
 
 class ClientModel(db.Model):
     __tablename__ = 'client'
 
-    id :int = db.Column(db.Integer, primary_key=True)
-    name :str = db.Column(db.String(128), nullable=False)
-    email :str = db.Column(db.String(128), nullable=False)
-    active :bool = db.Column(db.Boolean, nullable=False, default=True)
+    id: int = db.Column(db.Integer, primary_key=True)
+    firt_name: str = db.Column(db.String(30), nullable=False)
+    last_name: str = db.Colum(db.String(100), nullable=False)
+    cpf: str = db.Colum(db.String(11), nullable=False)
+    rg_number: str = db.Colum(db.String(9), nullable=True)
+    rg_uf = str = db.Colum(db.String(2), nullable=True)
+    email: str = db.Column(db.String(128), nullable=False)
+    password: str = db.Column(db.String(32), nullable=False)
+    active: bool = db.Column(db.Boolean, nullable=False, default=True)
     timestamp = db.Column(db.Date)
+    # last_login = db.Column(db.Date)
 
     @staticmethod
     def get_by_email(email):
         return db.session.query(ClientModel).filter_by(email=email).first()
 
     @staticmethod
-    def get_by_id(id_client :int):
+    def get_by_id(id_client: int):
         return db.session.query(ClientModel).filter_by(id=id_client).first()
 
     @staticmethod

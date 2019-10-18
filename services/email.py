@@ -2,6 +2,7 @@ from email.message import EmailMessage
 from smtplib import SMTP
 from os import environ
 
+
 class EmailService:
     def __init__(self):
         self.from_address = environ['SMTP_FROM']
@@ -14,7 +15,6 @@ class EmailService:
     def __del__(self):
         if self.server:
             self.server.quit()
-
 
     def send(self, to_address, message_content, subject=''):
         if not self.server:
