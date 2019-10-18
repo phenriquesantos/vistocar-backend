@@ -1,17 +1,15 @@
 from models import db
 
-import random
-import string
-from datetime import date, datetime
 
 class UserModel(db.Model):
     __tablename__ = 'user'
 
-    id :int = db.Column(db.Integer, primary_key=True)
-    name :str = db.Column(db.String(128), nullable=False)
-    email :str = db.Column(db.String(128), nullable=False)
-    password :str = db.Column(db.String(256), nullable=True)
-    active :bool = db.Column(db.Boolean, nullable=False, default=True)
+    id: int = db.Column(db.Integer, primary_key=True)
+    name: str = db.Column(db.String(30), nullable=False)
+    last_name: str = db.Column(db.String(100), nullable=False)
+    email: str = db.Column(db.String(128), nullable=False)
+    password: str = db.Column(db.String(256), nullable=True)
+    active: bool = db.Column(db.Boolean, nullable=False, default=True)
     timestamp = db.Column(db.Date)
 
     @staticmethod
@@ -19,7 +17,7 @@ class UserModel(db.Model):
         return db.session.query(UserModel).filter_by(email=email).first()
 
     @staticmethod
-    def get_by_id(id_user :int):
+    def get_by_id(id_user: int):
         return db.session.query(UserModel).filter_by(id=id_user).first()
 
     @staticmethod

@@ -5,8 +5,6 @@ from models.client import ClientModel
 from datetime import date, datetime
 
 
-
-
 class ClientResource(Resource):
     def _get_client(self, id_client):
         client = ClientModel.get_by_id(id_client)
@@ -15,10 +13,10 @@ class ClientResource(Resource):
             return {'message': 'Client not found'}, 404
 
         return {
-                'id': client.id,
-                'name': client.name,
-                'email': client.email,
-                'active': client.active
+            'id': client.id,
+            'name': client.name,
+            'email': client.email,
+            'active': client.active
         }
 
     def _list_client(self):

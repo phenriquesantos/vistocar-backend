@@ -8,6 +8,7 @@ from functools import wraps
 from werkzeug.exceptions import HTTPException
 from os import environ
 
+
 def initialize_resources(application):
     api = Api(application)
     jwt = JWTManager(application)
@@ -16,7 +17,8 @@ def initialize_resources(application):
         CORS(application, supports_credentials=True, origins="*")
     else:
         # so usar na produção o comando abaixo
-        CORS(application, resources={r"*": {"origins": environ.get('CORS_URL')}})
+        CORS(application, resources={
+             r"*": {"origins": environ.get('CORS_URL')}})
 
     # Endpoints
     from resources.user import UserResource

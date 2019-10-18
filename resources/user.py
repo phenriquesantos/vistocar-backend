@@ -5,8 +5,6 @@ from models.user import UserModel
 from datetime import date, datetime
 
 
-
-
 class UserResource(Resource):
     def _get_user(self, id_user):
         user = UserModel.get_by_id(id_user)
@@ -15,10 +13,10 @@ class UserResource(Resource):
             return {'message': 'User not found'}, 404
 
         return {
-                'id': user.id,
-                'name': user.name,
-                'email': user.email,
-                'active': user.active
+            'id': user.id,
+            'name': user.name,
+            'email': user.email,
+            'active': user.active
         }
 
     def _list_user(self):
