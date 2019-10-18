@@ -16,5 +16,9 @@ class ScheduleModel(db.Model):
         return db.session.query(ScheduleModel).filter_by(client_id=client_id).first()
 
     @staticmethod
+    def get_by_status(client_id):
+        return db.session.query(ScheduleModel).filter_by(status=status).first()
+
+    @staticmethod
     def get_by_id(id):
         return db.session.query(ScheduleModel).filter_by(id=id).first()

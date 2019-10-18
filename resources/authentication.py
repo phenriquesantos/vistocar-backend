@@ -18,13 +18,13 @@ class AuthenticationResource(Resource):
             access = create_jwt({
                 'id_user': user.id,
                 'email': user.email,
-                'name': user.name
+                'name': user.first_name
             })
 
             return {
                 'id_user': user.id,
                 'email': user.email,
-                'name': user.name
+                'name': user.first_name
             }, 200
         else:
             return {'message': 'Invalid credentials'}, 400

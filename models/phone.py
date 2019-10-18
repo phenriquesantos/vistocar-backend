@@ -2,7 +2,7 @@ from models import db
 
 
 class PhoneModel(db.Model):
-    __tablename__ = 'schedule'
+    __tablename__ = 'phone'
 
     id: int = db.Column(db.Integer, primary_key=True)
     phone: str = db.Column(db.String(25), nullable=False)

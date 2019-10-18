@@ -14,7 +14,7 @@ class ClientResource(Resource):
 
         return {
             'id': client.id,
-            'name': client.name,
+            'name': client.firt_name,
             'email': client.email,
             'active': client.active
         }
@@ -25,8 +25,7 @@ class ClientResource(Resource):
 
         return list(map(lambda client: {
             'id': client.id,
-            'name': client.name,
-            'company_name': client.company.name,
+            'name': client.first_name,
             'email': client.email,
             'active': client.active
         }, clients))
@@ -45,7 +44,11 @@ class ClientResource(Resource):
 
         if item:
             model = ClientModel()
-            model.name = item['name']
+            model.first_name = item['first_name']
+            model.last_name = item['last_name']
+            model.cpf = item['cpf']
+            model.rg_number = item['rg_number']
+            model.rg_uf = item['rg_uf']
             model.email = item['email']
             model.active = item['active'] if 'active' in item else True
             model.password = item['password']
@@ -62,8 +65,16 @@ class ClientResource(Resource):
 
             if item:
                 model = ClientModel()
-                if 'name' in item:
-                    model.name = item['name']
+                if 'first_name' in item:
+                    model.first_name = item['first_name']
+                if 'last_name' in item:
+                    model.last_name = item['last_name']
+                if 'cpf' in item:
+                    model.cpf = item['cpf']
+                if 'rg_number' in item:
+                    model.rg_number = item['rg_number']
+                if 'rg_uf' in item:
+                    model.rg_uf = item['rg_uf']
                 if 'email' in item:
                     model.email = item['email']
                 if 'active' in item:

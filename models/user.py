@@ -5,7 +5,7 @@ class UserModel(db.Model):
     __tablename__ = 'user'
 
     id: int = db.Column(db.Integer, primary_key=True)
-    name: str = db.Column(db.String(30), nullable=False)
+    first_name: str = db.Column(db.String(30), nullable=False)
     last_name: str = db.Column(db.String(100), nullable=False)
     email: str = db.Column(db.String(128), nullable=False)
     password: str = db.Column(db.String(256), nullable=True)

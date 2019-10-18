@@ -14,7 +14,7 @@ class UserResource(Resource):
 
         return {
             'id': user.id,
-            'name': user.name,
+            'name': user.first_name,
             'email': user.email,
             'active': user.active
         }
@@ -24,7 +24,7 @@ class UserResource(Resource):
 
         return list(map(lambda user: {
             'id': user.id,
-            'name': user.name,
+            'name': user.first_name,
             'email': user.email,
             'active': user.active
         }, users))
@@ -43,7 +43,8 @@ class UserResource(Resource):
 
         if item:
             model = UserModel()
-            model.name = item['name']
+            model.first_name = item['first_name']
+            model.last_name = item['last_name']
             model.email = item['email']
             model.active = item['active'] if 'active' in item else True
             model.password = item['password']
@@ -60,8 +61,10 @@ class UserResource(Resource):
 
             if item:
                 model = UserModel()
-                if 'name' in item:
-                    model.name = item['name']
+                if 'first_name' in item:
+                    model.first_name = item['first_name']
+                if 'last_name' in item:
+                    model.last_name = item['last_name']
                 if 'email' in item:
                     model.email = item['email']
                 if 'active' in item:
