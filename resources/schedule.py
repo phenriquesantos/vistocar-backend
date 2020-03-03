@@ -6,6 +6,47 @@ from datetime import date, datetime
 
 
 class ScheduleResource(Resource):
+
+    def _list_scheduling(self):
+
+        schedulings = ScheduleModel.list_all()
+
+        return list(map(lambda scheduling: {
+            'id': scheduling.id,
+            'status': scheduling.status,
+            'client_id': scheduling.client_id,
+            'created_at': scheduling.created_at
+        }, schedulings))
+
+    # @jwt_required
+    def get(self):
+        try:
+            return self._list_scheduling()
+        except Exception as e:
+            return f"{e}", 500
+
+    def post(self):
+        item = request.get_json() if request.get_json() else request.form
+
+        try:
+            if item:
+                model = ScheduleModel()
+                model.status = item['status']
+                model.created_at = item['created_at']
+                model.client_id = item['client_id']
+                model.last_update = item['last_update']
+                model.timestamp = date.today()
+                model.save()
+
+                return 'created', 201
+            else:
+                return 'not created, invalid payload', 400
+        except Exception as e:
+            return f"{e}", 500
+
+
+class ScheduleDetailResource(Resource):
+
     def _get_scheduling(self, id_scheduling):
         scheduling = ScheduleModel.get_by_id(id_scheduling)
 
@@ -19,48 +60,22 @@ class ScheduleResource(Resource):
             'created_at': scheduling.created_at
         }
 
-    def _list_scheduling(self):
-
-        schedulings = ScheduleModel.list_all()
-
-        return list(map(lambda scheduling: {
-            'id': scheduling.id,
-            'status': scheduling.status,
-            'client_id': scheduling.client_id,
-            'created_at': scheduling.created_at
-        }, schedulings))
-
-    @jwt_required
-    def get(self):
-        if 'id' in request.args:
+    # @jwt_required
+    def get(self, id):
+        try:
             id_scheduling = request.args['id']
-
             return self._get_scheduling(id_scheduling)
-        else:
-            return self._list_scheduling()
 
-    def post(self):
-        item = request.get_json()
+        except Exception as e:
+            return f"{e}", 500
 
-        if item:
-            model = ScheduleModel()
-            model.status = item['status']
-            model.created_at = item['created_at']
-            model.client_id = item['client_id']
-            model.last_update = item['last_update']
-            model.timestamp = date.today()
-            model.save()
-
-            return '', 201
-        else:
-            return '', 400
-
-        @jwt_required
-        def put(self):
-            item = request.get_json()
-
+    # @jwt_required
+    def put(self, id):
+        item = request.get_json() if request.get_json() else request.form
+        print(item)
+        try:
             if item:
-                model = ScheduleModel()
+                model = ScheduleModel.get_by_id(int(id))
                 if 'status' in item:
                     model.status = item['status']
                 if 'created_at' in item:
@@ -71,6 +86,9 @@ class ScheduleResource(Resource):
                     model.last_update = item['last_update']
                 model.save()
 
-                return '', 204
+                return 'edited', 204
             else:
-                return '', 400
+                return 'unedited, invalid payload', 400
+
+        except Exception as e:
+            return f"{e}", 500

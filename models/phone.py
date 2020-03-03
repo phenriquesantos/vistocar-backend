@@ -13,8 +13,8 @@ class PhoneModel(db.Model):
 
     @staticmethod
     def get_by_client(client_id):
-        return db.session.query(PhoneModel).filter_by(client_id=client_id).first()
+        return ScheduleModel.query.filter_by(client_id=client_id).first()
 
     @staticmethod
     def get_by_id(id):
-        return db.session.query(PhoneModel).filter_by(id=id).first()
+        return ScheduleModel.query.filter_by(id=id).first()

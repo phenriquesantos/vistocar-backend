@@ -18,15 +18,15 @@ class UserModel(db.Model):
 
     @staticmethod
     def get_by_id(id_user: int):
-        return db.session.query(UserModel).filter_by(id=id_user).first()
+        return UserModel.query.filter_by(id=id_user).first()
 
     @staticmethod
     def get_by_ids(ids_user):
-        return db.session.query(UserModel).filter(UserModel.id.in_(ids_user)).all()
+        return UserModel.query.filter(UserModel.id.in_(ids_user)).all()
 
     @staticmethod
     def list_all():
-        return UserModel.query.order_by(UserModel.name).all()
+        return UserModel.query.order_by(UserModel.first_name).all()
 
     @staticmethod
     def authenticate(email, password):

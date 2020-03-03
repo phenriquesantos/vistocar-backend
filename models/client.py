@@ -5,11 +5,11 @@ class ClientModel(db.Model):
     __tablename__ = 'client'
 
     id: int = db.Column(db.Integer, primary_key=True)
-    firt_name: str = db.Column(db.String(30), nullable=False)
+    first_name: str = db.Column(db.String(30), nullable=False)
     last_name: str = db.Column(db.String(100), nullable=False)
     cpf: str = db.Column(db.String(11), nullable=False)
     rg_number: str = db.Column(db.String(9), nullable=True)
-    rg_uf = str = db.Column(db.String(2), nullable=True)
+    rg_uf: str = db.Column(db.String(2), nullable=True)
     email: str = db.Column(db.String(128), nullable=False)
     password: str = db.Column(db.String(32), nullable=False)
     active: bool = db.Column(db.Boolean, nullable=False, default=True)
@@ -18,19 +18,19 @@ class ClientModel(db.Model):
 
     @staticmethod
     def get_by_email(email):
-        return db.session.query(ClientModel).filter_by(email=email).first()
+        return ClientModel.query.filter_by(email=email).first()
 
     @staticmethod
     def get_by_id(id_client: int):
-        return db.session.query(ClientModel).filter_by(id=id_client).first()
+        return ClientModel.query.filter_by(id=id_client).first()
 
     @staticmethod
     def get_by_ids(ids_client):
-        return db.session.query(ClientModel).filter(ClientModel.id.in_(ids_client)).all()
+        return ClientModel.query.filter(ClientModel.id.in_(ids_client)).all()
 
     @staticmethod
     def list_all():
-        return ClientModel.query.order_by(ClientModel.name).all()
+        return ClientModel.query.all()
 
     def save(self):
         db.session.merge(self)

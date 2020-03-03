@@ -13,12 +13,20 @@ class ScheduleModel(db.Model):
 
     @staticmethod
     def get_by_client(client_id):
-        return db.session.query(ScheduleModel).filter_by(client_id=client_id).first()
+        return ScheduleModel.query.filter_by(client_id=client_id).first()
 
     @staticmethod
     def get_by_status(client_id):
-        return db.session.query(ScheduleModel).filter_by(status=status).first()
+        return ScheduleModel.query.filter_by(status=status).first()
 
     @staticmethod
     def get_by_id(id):
-        return db.session.query(ScheduleModel).filter_by(id=id).first()
+        return ScheduleModel.query.filter_by(id=id).first()
+
+    @staticmethod
+    def list_all():
+        return ScheduleModel.query.order_by(ScheduleModel.id).all()
+
+    def save(self):
+        db.session.merge(self)
+        db.session.commit()

@@ -21,15 +21,21 @@ def initialize_resources(application):
              r"*": {"origins": environ.get('CORS_URL')}})
 
     # Endpoints
-    from resources.user import UserResource
     from resources.user_password_recovery import UserPasswordRecoveryResource
     from resources.authentication import AuthenticationResource
+    from resources.user import UserResource
+    from resources.user import UserDetailResource
     from resources.client import ClientResource
-    drom resources.schedule import ScheduleResource
+    from resources.client import ClientDetailResource
+    from resources.schedule import ScheduleResource
+    from resources.schedule import ScheduleDetailResource
 
     api.add_resource(UserResource, '/api/user')
+    api.add_resource(UserDetailResource, '/api/user/<int:id>')
     api.add_resource(ClientResource, '/api/client')
-    api.add_resource(ClientResource, '/api/schedule')
+    api.add_resource(ClientDetailResource, '/api/client/<int:id>')
+    api.add_resource(ScheduleResource, '/api/schedule')
+    api.add_resource(ScheduleDetailResource, '/api/schedule/<int:id>')
     api.add_resource(UserPasswordRecoveryResource, '/api/user/recovery')
     api.add_resource(AuthenticationResource, '/api/login')
 
