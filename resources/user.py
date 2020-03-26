@@ -14,7 +14,8 @@ class UserResource(Resource):
             'id': user.id,
             'name': user.first_name,
             'email': user.email,
-            'active': user.active
+            'active': user.active,
+            'password': user.password
         }, users))
 
     # @jwt_required
