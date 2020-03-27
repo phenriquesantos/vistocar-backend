@@ -39,3 +39,6 @@ class UserModel(db.Model):
     def save(self):
         db.session.merge(self)
         db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)

@@ -116,14 +116,16 @@ def test_put_report():
 
 # test destroy
 def test_destroy():
-    user = UserModel.get_by_id(1)
-    client = ClientModel.get_by_email("hdjfs@djflkshahahahhaha")
-    schedule = ScheduleModel.get_by_status(12345)
+    try:
+        user_response = requests.delete(f"http://localhost:5000/api/user/1")
+        client_response = requests.delete(f"http://localhost:5000/api/client/1")
+        schedule_response = requests.delete(f"http://localhost:5000/api/schedule/1")
+        report_response = requests.delete(f"http://localhost:5000/api/report/1")
+    except Exception as e:
+        print(e)
 
-    user.delete()
-    client.delete()
-    schedule.delete()
 
-    assert UserModel.get_by_email("jdfsklj@nxncx") == None
-    assert ClientModel.get_by_email("hdjfs@djflkshahahahhaha") == None
-    assert ScheduleModel.get_by_status(12345) == None
+    assert user_response.status_code == 204
+    assert client_response.status_code == 204
+    assert schedule_response.status_code == 204
+    assert report_response.status_code == 204

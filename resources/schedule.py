@@ -102,3 +102,12 @@ class ScheduleDetailResource(Resource):
 
         except Exception as e:
             return f"{e}", 500
+
+    def delete(self, id):
+        try:
+            scheduling = ScheduleModel.get_by_id(id)
+            scheduling.delete()
+            return 'No Content', 204
+
+        except Exception as e:
+            return f"{e}", 500

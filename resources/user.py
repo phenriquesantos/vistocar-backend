@@ -96,3 +96,12 @@ class UserDetailResource(Resource):
 
         except Exception as e:
             return f"{e}", 500
+
+    def delete(self, id):
+        try:
+            user = UserModel.get_by_id(id)
+            user.delete()
+            return 'No Content', 204
+
+        except Exception as e:
+            return f"{e}", 500
