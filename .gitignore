@@ -111,3 +111,5 @@ obj/
 
 *.zip
 angular_app/
+
+*.sqlite3

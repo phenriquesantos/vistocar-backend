@@ -1,7 +1,7 @@
 import pytest
 import requests
 
-from datetime import date
+from datetime import date, datetime
 
 from models.user import UserModel
 from models.client import ClientModel
@@ -69,12 +69,13 @@ def test_put_client():
 # test schedule
 def test_post_schedule():
     response = requests.post("http://localhost:5000/api/schedule",
-        data={
+        data = {
             "id":666,
             "status": 64365983294,
             "created_at": 76,
             "client_id": 1,
-            "last_update": 87
+            "date": "2020-03-26",
+            "time": "11:00"
             })
     assert response.status_code == 201
 
@@ -86,6 +87,29 @@ def test_put_schedule():
     response = requests.put(f"http://localhost:5000/api/schedule/1",
         data={
             "status": 12345
+            })
+    assert response.status_code == 204
+
+
+# test report
+def test_post_report():
+    response = requests.post("http://localhost:5000/api/report",
+        data = {
+            "status": 8,
+            "vehicle_id": 1,
+            "client_id": 1,
+            "description": "bla bla bla"
+            })
+    assert response.status_code == 201
+
+def test_get_report():
+    response = requests.get("http://localhost:5000/api/report")
+    assert response.status_code == 200
+
+def test_put_report():
+    response = requests.put(f"http://localhost:5000/api/report/1",
+        data={
+            "status": 5
             })
     assert response.status_code == 204
 

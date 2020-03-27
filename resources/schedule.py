@@ -15,7 +15,9 @@ class ScheduleResource(Resource):
             'id': scheduling.id,
             'status': scheduling.status,
             'client_id': scheduling.client_id,
-            'created_at': scheduling.created_at
+            'created_at': scheduling.created_at,
+            'date': scheduling.date.strftime("%d/%m/%y"),
+            'time': scheduling.time
         }, schedulings))
 
     # @jwt_required
@@ -30,11 +32,15 @@ class ScheduleResource(Resource):
 
         try:
             if item:
+
+                dt = item['date'].split('-')
+
                 model = ScheduleModel()
                 model.status = item['status']
                 model.created_at = item['created_at']
                 model.client_id = item['client_id']
-                model.last_update = item['last_update']
+                model.date = date(int(dt[0]), int(dt[1]), int(dt[2]))
+                model.time = item['time']
                 model.timestamp = date.today()
                 model.save()
 
@@ -57,7 +63,9 @@ class ScheduleDetailResource(Resource):
             'id': scheduling.id,
             'status': scheduling.status,
             'client_id': scheduling.client_id,
-            'created_at': scheduling.created_at
+            'created_at': scheduling.created_at,
+            'date': scheduling.date,
+            'time': scheduling.time
         }
 
     # @jwt_required
@@ -82,8 +90,10 @@ class ScheduleDetailResource(Resource):
                     model.created_at = item['created_at']
                 if 'client_id' in item:
                     model.client_id = item['client_id']
-                if 'last_update' in item:
-                    model.last_update = item['last_update']
+                if 'date' in item:
+                    model.date = item['date']
+                if 'time' in item:
+                    model.time = item['time']
                 model.save()
 
                 return 'edited', 204

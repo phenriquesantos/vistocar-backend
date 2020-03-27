@@ -3,6 +3,8 @@ from models.user import UserModel
 from models.client import ClientModel
 from models.phone import PhoneModel
 from models.schedule import ScheduleModel
+from models.report import ReportModel
+from models.vehicle import VehicleModel
 
 from os import environ
 # importar model aqui
