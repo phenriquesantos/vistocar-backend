@@ -62,10 +62,10 @@ class UserDetailResource(Resource):
             'active': user.active
         }
 
-    # @jwt_required
+    @jwt_required
     def get(self, id):
         try:
-            id_user = request.args['id']
+            id_user = id
             return self._get_user(id_user)
 
         except Exception as e:
