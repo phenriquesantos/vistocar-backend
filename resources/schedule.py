@@ -2,6 +2,7 @@ from flask import request, jsonify
 from flask_jwt_simple import jwt_required, get_jwt
 from flask_restful import Resource
 from models.schedule import ScheduleModel
+from models.vehicle import VehicleModel
 from datetime import date, datetime
 
 
@@ -32,6 +33,7 @@ class ScheduleResource(Resource):
 
         try:
             if item:
+                print(item)
 
                 dt = item['date'].split('-')
 
@@ -43,6 +45,13 @@ class ScheduleResource(Resource):
                 model.time = item['time']
                 model.timestamp = date.today()
                 model.save()
+
+                vehicle = VehicleModel()
+                vehicle.board = item['vehicle_board']
+                vehicle.brand = item['vehicle_brand']
+                vehicle.model = item['vehicle_model']
+                vehicle.year = item['vehicle_year']
+                vehicle.save()
 
                 return 'created', 201
             else:
