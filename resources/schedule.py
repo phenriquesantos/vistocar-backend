@@ -33,7 +33,6 @@ class ScheduleResource(Resource):
 
         try:
             if item:
-                print(item)
 
                 dt = item['date'].split('-')
 
