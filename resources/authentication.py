@@ -15,16 +15,22 @@ class AuthenticationResource(Resource):
         user = UserModel.authenticate(email, password)
 
         if user:
+
             access = create_jwt({
                 'id_user': user.id,
                 'email': user.email,
-                'name': user.first_name
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'active': user.active
             })
 
             return {
                 'id_user': user.id,
                 'email': user.email,
-                'name': user.first_name
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'active': user.active,
+                'jwt': access
             }, 200
         else:
             return {'message': 'Invalid credentials'}, 400
