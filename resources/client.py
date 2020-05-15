@@ -39,7 +39,6 @@ class ClientResource(Resource):
                 model.email = item['email']
                 model.phone = item['phone']
                 model.active = item['active'] if 'active' in item else True
-                model.password = item['password']
                 model.timestamp = date.today()
                 model.save()
 
