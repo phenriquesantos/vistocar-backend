@@ -75,7 +75,11 @@ def test_post_schedule():
             "created_at": 76,
             "client_id": 1,
             "date": "2020-03-26",
-            "time": "11:00"
+            "time": "11:00",
+            "vehicle_board": "ABC-6666",
+            "vehicle_brand": "CHEVROLET",
+            "vehicle_model": "CELTA",
+            "vehicle_year": "2001"
             })
     assert response.status_code == 201
 

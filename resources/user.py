@@ -15,6 +15,7 @@ class UserResource(Resource):
             'name': user.first_name,
             'email': user.email,
             'active': user.active,
+            'role': user.role,
             'password': user.password
         }, users))
 
@@ -35,6 +36,7 @@ class UserResource(Resource):
                 model.last_name = item['last_name']
                 model.email = item['email']
                 model.active = item['active'] if 'active' in item else True
+                model.role = item['role'] if 'role' in item else 'client'
                 model.password = item['password']
                 model.timestamp = date.today()
                 model.save()
@@ -58,6 +60,7 @@ class UserDetailResource(Resource):
         return {
             'id': user.id,
             'name': user.first_name,
+            'role': user.role,
             'email': user.email,
             'active': user.active
         }
@@ -86,6 +89,8 @@ class UserDetailResource(Resource):
                     model.email = item['email']
                 if 'active' in item:
                     model.active = item['active'] if 'active' in item else True
+                if 'role' in item:
+                    model.role = item['role']
                 if 'password' in item:
                     model.password = item['password']
                 model.save()

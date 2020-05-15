@@ -10,6 +10,7 @@ class UserModel(db.Model):
     email: str = db.Column(db.String(128), nullable=False)
     password: str = db.Column(db.String(256), nullable=True)
     active: bool = db.Column(db.Boolean, nullable=False, default=True)
+    role: str = db.Column(db.String(20), nullable=False)
     timestamp = db.Column(db.Date)
 
     @staticmethod
