@@ -57,6 +57,7 @@ class ReportDetailResource(Resource):
 
         if report is None:
             return {'message': 'report not found'}, 404
+        print(report)
 
         return {
             'id': report.id,
@@ -69,8 +70,7 @@ class ReportDetailResource(Resource):
     # @jwt_required
     def get(self, id):
         try:
-            id_report = request.args['id']
-            return self._get_report(id_report)
+            return self._get_report(id)
 
         except Exception as e:
             return f"{e}", 500

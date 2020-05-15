@@ -40,7 +40,7 @@ class ScheduleResource(Resource):
                 model.status = item['status']
                 model.created_at = item['created_at']
                 model.client_id = item['client_id']
-                model.date = date(int(dt[2]), int(dt[1]), int(dt[1]))
+                model.date = date(int(dt[2]), int(dt[1]), int(dt[0]))
                 model.time = item['time']
                 model.timestamp = date.today()
                 model.save()

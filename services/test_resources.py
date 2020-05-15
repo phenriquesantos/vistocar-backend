@@ -5,7 +5,6 @@ from datetime import date, datetime
 
 from models.user import UserModel
 from models.client import ClientModel
-from models.phone import PhoneModel
 from models.schedule import ScheduleModel
 
 
@@ -74,7 +73,7 @@ def test_post_schedule():
             "status": 64365983294,
             "created_at": 76,
             "client_id": 1,
-            "date": "2020-03-26",
+            "date": "26/03/2020",
             "time": "11:00",
             "vehicle_board": "ABC-6666",
             "vehicle_brand": "CHEVROLET",
