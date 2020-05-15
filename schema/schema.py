@@ -24,7 +24,7 @@ class Schema:
             admin = UserModel()
             admin.first_name = "Admin"
             admin.last_name = ""
-            admin.role = "admin "
+            admin.role = "admin"
             admin.email = "admin@admin.com"
             admin.password = "admin123"
             admin.active = True
