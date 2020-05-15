@@ -34,13 +34,13 @@ class ScheduleResource(Resource):
         try:
             if item:
 
-                dt = item['date'].split('-')
+                dt = item['date'].split('/')
 
                 model = ScheduleModel()
                 model.status = item['status']
                 model.created_at = item['created_at']
                 model.client_id = item['client_id']
-                model.date = date(int(dt[0]), int(dt[1]), int(dt[2]))
+                model.date = date(int(dt[2]), int(dt[1]), int(dt[1]))
                 model.time = item['time']
                 model.timestamp = date.today()
                 model.save()
@@ -56,6 +56,7 @@ class ScheduleResource(Resource):
             else:
                 return 'not created, invalid payload', 400
         except Exception as e:
+            print(e)
             return f"{e}", 500
 
 

@@ -6,7 +6,7 @@ class ScheduleModel(db.Model):
 
     id: int = db.Column(db.Integer, primary_key=True)
     status: int = db.Column(db.Integer, nullable=False, default=0)
-    created_at = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.String(15), nullable=False)
     date = db.Column(db.Date)
     time: str = db.Column(db.String(15), nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
