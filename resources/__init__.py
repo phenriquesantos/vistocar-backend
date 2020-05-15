@@ -31,6 +31,7 @@ def initialize_resources(application):
     from resources.schedule import ScheduleDetailResource
     from resources.report import ReportResource
     from resources.report import ReportDetailResource
+    from resources.available_times import AvailableTimesResource
 
     api.add_resource(UserResource, '/api/user')
     api.add_resource(UserDetailResource, '/api/user/<int:id>')
@@ -40,6 +41,7 @@ def initialize_resources(application):
     api.add_resource(ScheduleDetailResource, '/api/schedule/<int:id>')
     api.add_resource(ReportResource, '/api/report')
     api.add_resource(ReportDetailResource, '/api/report/<int:id>')
+    api.add_resource(AvailableTimesResource, '/api/available_times/<date>')
     api.add_resource(UserPasswordRecoveryResource, '/api/user/recovery')
     api.add_resource(AuthenticationResource, '/api/login')
 

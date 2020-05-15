@@ -18,7 +18,7 @@ class ClientResource(Resource):
             'active': client.active
         }, clients))
 
-    @jwt_required
+    # @jwt_required
     def get(self):
         try:
             return self._list_client()
@@ -71,7 +71,7 @@ class ClientDetailResource(Resource):
             'active': client.active
         }
 
-    @jwt_required
+    # @jwt_required
     def get(self, id):
         try:
             return self._get_client(id)
@@ -79,7 +79,7 @@ class ClientDetailResource(Resource):
         except Exception as e:
             return f"{e}", 500
 
-    @jwt_required
+    # @jwt_required
     def put(self, id):
         item = request.get_json() if request.get_json() else request.form
 
@@ -111,7 +111,7 @@ class ClientDetailResource(Resource):
         except Exception as e:
             return f"{e}", 500
 
-    @jwt_required
+    # @jwt_required
     def delete(self, id):
         try:
             client = ClientModel.get_by_id(id)

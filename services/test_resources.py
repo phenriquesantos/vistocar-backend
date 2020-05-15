@@ -47,7 +47,7 @@ def test_post_client():
             "rg_number": "654987362",
             "rg_uf": "sp",
             "email": "hdjfs@djflks",
-            "password": "kjdslksjl"
+            "phone": "11964658699"
             })
     assert response.status_code == 201
 

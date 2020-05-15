@@ -34,7 +34,7 @@ class ScheduleResource(Resource):
         try:
             if item:
 
-                dt = item['date'].split('/')
+                dt = item['date'].split('-')
 
                 model = ScheduleModel()
                 model.status = item['status']
