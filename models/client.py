@@ -11,6 +11,7 @@ class ClientModel(db.Model):
     rg_number: str = db.Column(db.String(9), nullable=True)
     rg_uf: str = db.Column(db.String(2), nullable=True)
     email: str = db.Column(db.String(128), nullable=False)
+    phone: str = db.Column(db.String(20), nullable=False)
     password: str = db.Column(db.String(32), nullable=False)
     active: bool = db.Column(db.Boolean, nullable=False, default=True)
     timestamp = db.Column(db.Date)

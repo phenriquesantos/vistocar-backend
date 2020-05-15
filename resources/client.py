@@ -37,6 +37,7 @@ class ClientResource(Resource):
                 model.rg_number = item['rg_number']
                 model.rg_uf = item['rg_uf']
                 model.email = item['email']
+                model.phone = item['phone']
                 model.active = item['active'] if 'active' in item else True
                 model.password = item['password']
                 model.timestamp = date.today()
@@ -65,6 +66,7 @@ class ClientDetailResource(Resource):
             'last_name': client.last_name,
             'email': client.email,
             'cpf': client.cpf,
+            'phone': client.phone,
             'rg_number': client.rg_number,
             'rg_uf': client.rg_uf,
             'active': client.active
@@ -97,6 +99,8 @@ class ClientDetailResource(Resource):
                     model.rg_uf = item['rg_uf']
                 if 'email' in item:
                     model.email = item['email']
+                if 'phone' in item:
+                    model.phone = item['phone']
                 if 'active' in item:
                     model.active = item['active'] if 'active' in item else True
                 model.save()
@@ -107,7 +111,7 @@ class ClientDetailResource(Resource):
 
         except Exception as e:
             return f"{e}", 500
-    
+
     @jwt_required
     def delete(self, id):
         try:
