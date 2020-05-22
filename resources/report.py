@@ -36,7 +36,7 @@ class ReportResource(Resource):
         try:
             if request.args.get('client_id'):
                 client_id = request.args.get('client_id')
-                self._list_by_client(client_id)
+                return self._list_by_client(client_id)
             
             return self._list_report()
         except Exception as e:

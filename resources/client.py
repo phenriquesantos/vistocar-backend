@@ -18,9 +18,28 @@ class ClientResource(Resource):
             'active': client.active
         }, clients))
 
+    def _get_by_user(self, user_id):
+        client = ClientModel.get_by_user_id(user_id)
+        
+        return {
+            'id': client.id,
+            'first_name': client.first_name,
+            'last_name': client.last_name,
+            'email': client.email,
+            'cpf': client.cpf,
+            'phone': client.phone,
+            'rg_number': client.rg_number,
+            'rg_uf': client.rg_uf,
+            'active': client.active
+        }
+
     # @jwt_required
     def get(self):
         try:
+            if request.args.get('user_id'):
+                user_id = request.args.get('user_id')
+                return self._get_by_user(user_id)
+
             return self._list_client()
         except Exception as e:
             return f"{e}", 500
@@ -39,6 +58,7 @@ class ClientResource(Resource):
                 model.email = item['email']
                 model.phone = item['phone']
                 model.active = item['active'] if 'active' in item else True
+                model.user_id = item['user_id'] if 'user_id' in item else None
                 model.timestamp = date.today()
                 model.save()
 

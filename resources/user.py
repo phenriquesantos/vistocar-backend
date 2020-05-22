@@ -40,8 +40,9 @@ class UserResource(Resource):
                 model.password = item['password']
                 model.timestamp = date.today()
                 model.save()
+                user = model.get_by_email(item['email'])
 
-                return 'created', 201
+                return { 'status': 'created', 'id': user.id }, 201
             else:
                 return 'not created, invalid payload', 400
         except Exception as e:

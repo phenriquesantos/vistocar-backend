@@ -40,7 +40,7 @@ class ScheduleResource(Resource):
         try:
             if request.args.get('client_id'):
                 client_id = request.args.get('client_id')
-                self._list_by_client(client_id)
+                return self._list_by_client(int(client_id))
 
             return self._list_scheduling()
         except Exception as e:
@@ -86,20 +86,21 @@ class ScheduleDetailResource(Resource):
         if scheduling is None:
             return {'message': 'Schedule not found'}, 404
 
+        dt = str(scheduling.date).split('-')
+
         return {
             'id': scheduling.id,
             'status': scheduling.status,
             'client_id': scheduling.client_id,
             'created_at': scheduling.created_at,
-            'date': scheduling.date,
+            'date': dt[2] + '/' + dt[1] + dt[0],
             'time': scheduling.time
         }
 
     # @jwt_required
     def get(self, id):
         try:
-            id_scheduling = request.args['id']
-            return self._get_scheduling(id_scheduling)
+            return self._get_scheduling(id)
 
         except Exception as e:
             return f"{e}", 500

@@ -30,6 +30,7 @@ class AuthenticationResource(Resource):
                 'first_name': user.first_name,
                 'last_name': user.last_name,
                 'active': user.active,
+                'role': user.role,
                 'jwt': access
             }, 200
         else:

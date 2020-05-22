@@ -5,7 +5,7 @@ class ClientModel(db.Model):
     __tablename__ = 'client'
 
     id: int = db.Column(db.Integer, primary_key=True)
-    user_id: int = db.Column(db.Integer, nullable=False)
+    user_id: int = db.Column(db.Integer, nullable=True)
     first_name: str = db.Column(db.String(30), nullable=False)
     last_name: str = db.Column(db.String(100), nullable=False)
     cpf: str = db.Column(db.String(11), nullable=False)
@@ -24,6 +24,10 @@ class ClientModel(db.Model):
     @staticmethod
     def get_by_id(id_client: int):
         return ClientModel.query.filter_by(id=id_client).first()
+
+    @staticmethod
+    def get_by_user_id(user_id: int):
+        return ClientModel.query.filter_by(user_id=user_id).first()
 
     @staticmethod
     def get_by_ids(ids_client):

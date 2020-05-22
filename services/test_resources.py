@@ -73,7 +73,7 @@ def test_post_schedule():
             "status": 64365983294,
             "created_at": 76,
             "client_id": 1,
-            "date": "26/03/2020",
+            "date": "26-03-2020",
             "time": "11:00",
             "vehicle_board": "ABC-6666",
             "vehicle_brand": "CHEVROLET",
@@ -90,7 +90,7 @@ def test_put_schedule():
     response = requests.put(f"http://localhost:5000/api/schedule/1",
         data={
             "status": 12345
-            })
+        })
     assert response.status_code == 204
 
 
