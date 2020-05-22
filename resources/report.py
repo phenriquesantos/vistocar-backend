@@ -19,9 +19,25 @@ class ReportResource(Resource):
             'description': report.description
         }, reports))
 
+    def _list_by_client(self, client_id):
+        reports = ReportModel.get_by_client(client_id)
+
+        return list(map(lambda report: {
+            'id': report.id,
+            'status': report.status,
+            'client_id': report.client_id,
+            'vehicle_id': report.vehicle_id,
+            'description': report.description
+        }, reports))
+
+
     # @jwt_required
     def get(self):
         try:
+            if request.args.get('client_id'):
+                client_id = request.args.get('client_id')
+                self._list_by_client(client_id)
+            
             return self._list_report()
         except Exception as e:
             print(e)

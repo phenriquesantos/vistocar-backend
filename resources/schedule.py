@@ -21,9 +21,27 @@ class ScheduleResource(Resource):
             'time': scheduling.time
         }, schedulings))
 
+    def _list_by_client(self, client_id):
+        schedulings = ScheduleModel.get_by_client(client_id)
+
+        print(schedulings)
+
+        return list(map(lambda scheduling: {
+            'id': scheduling.id,
+            'status': scheduling.status,
+            'client_id': scheduling.client_id,
+            'created_at': scheduling.created_at,
+            'date': scheduling.date.strftime("%d/%m/%y"),
+            'time': scheduling.time
+        }, schedulings))
+
     # @jwt_required
     def get(self):
         try:
+            if request.args.get('client_id'):
+                client_id = request.args.get('client_id')
+                self._list_by_client(client_id)
+
             return self._list_scheduling()
         except Exception as e:
             return f"{e}", 500

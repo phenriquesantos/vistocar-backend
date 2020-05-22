@@ -10,11 +10,7 @@ class ReportModel(db.Model):
 
     @staticmethod
     def get_by_client(client_id):
-        return ReportModel.query.filter_by(client_id=client_id).first()
-
-    @staticmethod
-    def get_by_client(client_id):
-        return ReportModel.query.filter_by(client_id=client_id).first()
+        return ReportModel.query.filter_by(client_id=client_id).all()
 
     @staticmethod
     def get_by_id(id):

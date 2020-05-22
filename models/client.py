@@ -5,6 +5,7 @@ class ClientModel(db.Model):
     __tablename__ = 'client'
 
     id: int = db.Column(db.Integer, primary_key=True)
+    user_id: int = db.Column(db.Integer, nullable=False)
     first_name: str = db.Column(db.String(30), nullable=False)
     last_name: str = db.Column(db.String(100), nullable=False)
     cpf: str = db.Column(db.String(11), nullable=False)
