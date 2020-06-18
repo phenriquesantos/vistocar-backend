@@ -3,6 +3,7 @@ from flask_jwt_simple import jwt_required, get_jwt
 from flask_restful import Resource
 from models.schedule import ScheduleModel
 from models.vehicle import VehicleModel
+from models.client import ClientModel
 from datetime import date, datetime
 
 
@@ -11,29 +12,62 @@ class ScheduleResource(Resource):
     def _list_scheduling(self):
 
         schedulings = ScheduleModel.list_all()
+        res = []
+        for scheduling in schedulings:
+            client = ClientModel.get_by_id(scheduling.client_id)
+            res.append({
+                'id': scheduling.id,
+                'status': scheduling.status,
+                'client_id': scheduling.client_id,
+                'created_at': scheduling.created_at,
+                'date': scheduling.date.strftime("%d/%m/%y"),
+                'time': scheduling.time,
+                'client': {
+                    'id': client.id,
+                    'first_name': client.first_name,
+                }
+            })
+        
+        return res
 
-        return list(map(lambda scheduling: {
-            'id': scheduling.id,
-            'status': scheduling.status,
-            'client_id': scheduling.client_id,
-            'created_at': scheduling.created_at,
-            'date': scheduling.date.strftime("%d/%m/%y"),
-            'time': scheduling.time
-        }, schedulings))
+        # return list(map(lambda scheduling: {
+        #     'id': scheduling.id,
+        #     'status': scheduling.status,
+        #     'client_id': scheduling.client_id,
+        #     'created_at': scheduling.created_at,
+        #     'date': scheduling.date.strftime("%d/%m/%y"),
+        #     'time': scheduling.time,
+        # }, schedulings))
 
     def _list_by_client(self, client_id):
         schedulings = ScheduleModel.get_by_client(client_id)
 
-        print(schedulings)
+        res = []
+        for scheduling in schedulings:
+            client = ClientModel.get_by_id(scheduling.client_id)
+            res.append({
+                'id': scheduling.id,
+                'status': scheduling.status,
+                'client_id': scheduling.client_id,
+                'created_at': scheduling.created_at,
+                'date': scheduling.date.strftime("%d/%m/%y"),
+                'time': scheduling.time,
+                'client': {
+                    'id': client.id,
+                    'first_name': client.first_name,
+                }
+            })
+        
+        return res
 
-        return list(map(lambda scheduling: {
-            'id': scheduling.id,
-            'status': scheduling.status,
-            'client_id': scheduling.client_id,
-            'created_at': scheduling.created_at,
-            'date': scheduling.date.strftime("%d/%m/%y"),
-            'time': scheduling.time
-        }, schedulings))
+        # return list(map(lambda scheduling: {
+        #     'id': scheduling.id,
+        #     'status': scheduling.status,
+        #     'client_id': scheduling.client_id,
+        #     'created_at': scheduling.created_at,
+        #     'date': scheduling.date.strftime("%d/%m/%y"),
+        #     'time': scheduling.time
+        # }, schedulings))
 
     # @jwt_required
     def get(self):
@@ -51,6 +85,18 @@ class ScheduleResource(Resource):
 
         try:
             if item:
+                if 'vehicle_id' in item and item['vehicle_id'] != "0":
+                    vehicle = VehicleModel.get_by_id(int(item['vehicle_id']))
+                else:
+                    vehicle = VehicleModel()
+
+                vehicle.client_id = int(item['client_id'])
+                vehicle.board = item['vehicle_board']
+                vehicle.brand = item['vehicle_brand']
+                vehicle.model = item['vehicle_model']
+                vehicle.year = item['vehicle_year']
+                vehicle.save()
+                vehicle_saved = vehicle.get_by_board(item['vehicle_board'])
 
                 dt = item['date'].split('-')
 
@@ -61,14 +107,8 @@ class ScheduleResource(Resource):
                 model.date = date(int(dt[2]), int(dt[1]), int(dt[0]))
                 model.time = item['time']
                 model.timestamp = date.today()
+                model.vehicle_id = vehicle_saved.id
                 model.save()
-
-                vehicle = VehicleModel()
-                vehicle.board = item['vehicle_board']
-                vehicle.brand = item['vehicle_brand']
-                vehicle.model = item['vehicle_model']
-                vehicle.year = item['vehicle_year']
-                vehicle.save()
 
                 return 'created', 201
             else:
@@ -86,6 +126,9 @@ class ScheduleDetailResource(Resource):
         if scheduling is None:
             return {'message': 'Schedule not found'}, 404
 
+        client = ClientModel.get_by_id(scheduling.client_id)
+        vehicle = VehicleModel.get_by_id(scheduling.vehicle_id)
+
         dt = str(scheduling.date).split('-')
 
         return {
@@ -94,7 +137,18 @@ class ScheduleDetailResource(Resource):
             'client_id': scheduling.client_id,
             'created_at': scheduling.created_at,
             'date': dt[2] + '/' + dt[1] + dt[0],
-            'time': scheduling.time
+            'time': scheduling.time,
+            'client': {
+                'id': client.id,
+                'first_name': client.first_name
+            },
+            'vehicle': {
+                'id': vehicle.id,
+                'brand': vehicle.brand,
+                'model': vehicle.model,
+                'board': vehicle.board,
+                'year': vehicle.year
+            }
         }
 
     # @jwt_required
@@ -111,6 +165,25 @@ class ScheduleDetailResource(Resource):
         print(item)
         try:
             if item:
+                if 'vehicle_id' in item and item['vehicle_id'] != "0":
+                    vehicle = VehicleModel.get_by_id(int(item['vehicle_id']))
+                else:
+                    vehicle = VehicleModel()
+
+                if 'vehicle_board' in item:
+                    vehicle.board = item['vehicle_board']
+                if 'vehicle_brand' in item:
+                    vehicle.brand = item['vehicle_brand']
+                if 'vehicle_model' in item:
+                    vehicle.model = item['vehicle_model']
+                if 'vehicle_year' in item:
+                    vehicle.year = item['vehicle_year']
+                if 'client_id' in item:
+                    vehicle.client_id = int(item['client_id'])
+                vehicle.save()
+                vehicle_saved = vehicle.get_by_board(item['vehicle_board'])
+                print(vehicle_saved.id)
+
                 model = ScheduleModel.get_by_id(int(id))
                 if 'status' in item:
                     model.status = item['status']
@@ -119,9 +192,12 @@ class ScheduleDetailResource(Resource):
                 if 'client_id' in item:
                     model.client_id = item['client_id']
                 if 'date' in item:
-                    model.date = item['date']
+                    dt = item['date'].split('-')
+                    model.date = date(int(dt[2]), int(dt[1]), int(dt[0]))
                 if 'time' in item:
                     model.time = item['time']
+                if 'vehicle_id' in item:
+                    model.vehicle_id = vehicle_saved.id
                 model.save()
 
                 return 'edited', 204

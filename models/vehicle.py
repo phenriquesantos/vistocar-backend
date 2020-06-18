@@ -9,8 +9,16 @@ class VehicleModel(db.Model):
     year: str = db.Column(db.String(30), nullable=False)
 
     @staticmethod
+    def list_all():
+        return VehicleModel.query.order_by(VehicleModel.id).all()
+
+    @staticmethod
     def get_by_client(client_id):
-        return VehicleModel.query.filter_by(client_id=client_id).first()
+        return VehicleModel.query.filter_by(client_id=client_id).all()
+
+    @staticmethod
+    def get_by_board(board):
+        return VehicleModel.query.filter_by(board=board).first()
 
     @staticmethod
     def get_by_id(id):

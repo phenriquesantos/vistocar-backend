@@ -2,33 +2,59 @@ from flask import request, jsonify
 from flask_jwt_simple import jwt_required, get_jwt
 from flask_restful import Resource
 from models.report import ReportModel
+from models.client import ClientModel
 from datetime import date, datetime
 
 
 class ReportResource(Resource):
 
     def _list_report(self):
-
         reports = ReportModel.list_all()
+        
+        res = []
+        for report in reports:
+            client = ClientModel.get_by_id(report.client_id)
+            res.append({
+                'id': report.id,
+                'status': report.status,
+                'client_id': report.client_id,
+                'vehicle_id': report.vehicle_id,
+                'description': report.description,
+                'client': {
+                    'id': client.id,
+                    'first_name': client.first_name
+                }
+            })
 
-        return list(map(lambda report: {
-            'id': report.id,
-            'status': report.status,
-            'client_id': report.client_id,
-            'vehicle_id': report.vehicle_id,
-            'description': report.description
-        }, reports))
+        return res
 
     def _list_by_client(self, client_id):
         reports = ReportModel.get_by_client(client_id)
 
-        return list(map(lambda report: {
-            'id': report.id,
-            'status': report.status,
-            'client_id': report.client_id,
-            'vehicle_id': report.vehicle_id,
-            'description': report.description
-        }, reports))
+        res = []
+        for report in reports:
+            client = ClientModel.get_by_id(report.client_id)
+            res.append({
+                'id': report.id,
+                'status': report.status,
+                'client_id': report.client_id,
+                'vehicle_id': report.vehicle_id,
+                'description': report.description,
+                'client': {
+                    'id': client.id,
+                    'first_name': client.first_name
+                }
+            })
+
+        return res
+
+        # return list(map(lambda report: {
+        #     'id': report.id,
+        #     'status': report.status,
+        #     'client_id': report.client_id,
+        #     'vehicle_id': report.vehicle_id,
+        #     'description': report.description
+        # }, reports))
 
 
     # @jwt_required
@@ -45,7 +71,7 @@ class ReportResource(Resource):
 
     def post(self):
         item = request.get_json() if request.get_json() else request.form
-        reports = ReportModel.list_all()
+        # reports = ReportModel.list_all()
 
         try:
             if item:

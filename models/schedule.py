@@ -11,6 +11,7 @@ class ScheduleModel(db.Model):
     time: str = db.Column(db.String(15), nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
     timestamp = db.Column(db.Date)
+    vehicle_id = db.Column(db.Integer, nullable=False)
 
     @staticmethod
     def get_by_client(client_id):

@@ -21,6 +21,9 @@ class ClientResource(Resource):
     def _get_by_user(self, user_id):
         client = ClientModel.get_by_user_id(user_id)
         
+        if client is None:
+            return {'message': 'Client not found'}, 404
+
         return {
             'id': client.id,
             'first_name': client.first_name,
@@ -37,7 +40,7 @@ class ClientResource(Resource):
     def get(self):
         try:
             if request.args.get('user_id'):
-                user_id = request.args.get('user_id')
+                user_id = int(request.args.get('user_id'))
                 return self._get_by_user(user_id)
 
             return self._list_client()

@@ -27,7 +27,10 @@ class ClientModel(db.Model):
 
     @staticmethod
     def get_by_user_id(user_id: int):
-        return ClientModel.query.filter_by(user_id=user_id).first()
+        # print(user_id)
+        user = ClientModel.query.filter_by(user_id=user_id)
+        print(user.all()[0].user_id)
+        return user.first()
 
     @staticmethod
     def get_by_ids(ids_client):

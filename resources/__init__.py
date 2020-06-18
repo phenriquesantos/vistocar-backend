@@ -32,8 +32,10 @@ def initialize_resources(application):
     from resources.report import ReportResource
     from resources.report import ReportDetailResource
     from resources.available_times import AvailableTimesResource
+    from resources.vehicle import VehicleResource
 
     api.add_resource(UserResource, '/api/user')
+    api.add_resource(VehicleResource, '/api/vehicle')
     api.add_resource(UserDetailResource, '/api/user/<int:id>')
     api.add_resource(ClientResource, '/api/client')
     api.add_resource(ClientDetailResource, '/api/client/<int:id>')
