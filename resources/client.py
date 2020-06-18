@@ -20,7 +20,7 @@ class ClientResource(Resource):
 
     def _get_by_user(self, user_id):
         client = ClientModel.get_by_user_id(user_id)
-        
+
         if client is None:
             return {'message': 'Client not found'}, 404
 
@@ -52,6 +52,14 @@ class ClientResource(Resource):
 
         try:
             if item:
+
+                if ClientModel().get_by_cpf(item['cpf']):
+                    return f'The CPF "{item["email"]}" is already in use.', 400
+                if ClientModel().get_by_email(item['email']):
+                    return f'The email "{item["email"]}" is already in use.', 400
+                if ClientModel().get_by_rg(item['rg_number']):
+                    return f'The RG "{item["rg_number"]}" is already in use.', 400
+
                 model = ClientModel()
                 model.first_name = item['first_name']
                 model.last_name = item['last_name']

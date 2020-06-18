@@ -27,7 +27,7 @@ class ScheduleResource(Resource):
                     'first_name': client.first_name,
                 }
             })
-        
+
         return res
 
         # return list(map(lambda scheduling: {
@@ -57,7 +57,7 @@ class ScheduleResource(Resource):
                     'first_name': client.first_name,
                 }
             })
-        
+
         return res
 
         # return list(map(lambda scheduling: {
@@ -85,6 +85,10 @@ class ScheduleResource(Resource):
 
         try:
             if item:
+
+                if VehicleModel().get_by_board(item['board']):
+                    return f'The board "{item["board"]}" is already in use.', 400
+
                 if 'vehicle_id' in item and item['vehicle_id'] != "0":
                     vehicle = VehicleModel.get_by_id(int(item['vehicle_id']))
                 else:

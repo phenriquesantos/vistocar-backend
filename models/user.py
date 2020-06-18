@@ -7,7 +7,7 @@ class UserModel(db.Model):
     id: int = db.Column(db.Integer, primary_key=True)
     first_name: str = db.Column(db.String(30), nullable=False)
     last_name: str = db.Column(db.String(100), nullable=False)
-    email: str = db.Column(db.String(128), nullable=False)
+    email: str = db.Column(db.String(128), nullable=False, unique=True)
     password: str = db.Column(db.String(256), nullable=True)
     active: bool = db.Column(db.Boolean, nullable=False, default=True)
     role: str = db.Column(db.String(20), nullable=False)

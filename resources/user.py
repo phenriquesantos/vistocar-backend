@@ -31,6 +31,10 @@ class UserResource(Resource):
 
         try:
             if item:
+
+                if UserModel().get_by_email(item['email']):
+                    return f'The email "{item["email"]}" is already in use.', 400
+
                 model = UserModel()
                 model.first_name = item['first_name']
                 model.last_name = item['last_name']
@@ -46,6 +50,7 @@ class UserResource(Resource):
             else:
                 return 'not created, invalid payload', 400
         except Exception as e:
+            print(e)
             return f"{e}", 500
 
 

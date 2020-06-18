@@ -20,7 +20,7 @@ class Schema:
         engine = create_engine(environ.get('SQLALCHEMY_DATABASE_URI'))
         # <ClassModelName>.__table__.drop(engine)
         db.create_all()
-        if not UserModel.get_by_id(1):
+        if not UserModel.get_by_email('admin@admin.com'):
             admin = UserModel()
             admin.first_name = "Admin"
             admin.last_name = ""

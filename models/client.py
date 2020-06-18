@@ -8,10 +8,10 @@ class ClientModel(db.Model):
     user_id: int = db.Column(db.Integer, nullable=True)
     first_name: str = db.Column(db.String(30), nullable=False)
     last_name: str = db.Column(db.String(100), nullable=False)
-    cpf: str = db.Column(db.String(11), nullable=False)
-    rg_number: str = db.Column(db.String(9), nullable=True)
+    cpf: str = db.Column(db.String(11), nullable=False, unique=True)
+    rg_number: str = db.Column(db.String(9), nullable=True, unique=True)
     rg_uf: str = db.Column(db.String(2), nullable=True)
-    email: str = db.Column(db.String(128), nullable=False)
+    email: str = db.Column(db.String(128), nullable=False, unique=True)
     phone: str = db.Column(db.String(20), nullable=False)
     active: bool = db.Column(db.Boolean, nullable=False, default=True)
     timestamp = db.Column(db.Date)
@@ -20,6 +20,14 @@ class ClientModel(db.Model):
     @staticmethod
     def get_by_email(email):
         return ClientModel.query.filter_by(email=email).first()
+
+    @staticmethod
+    def get_by_cpf(cpf):
+        return ClientModel.query.filter_by(cpf=cpf).first()
+
+    @staticmethod
+    def get_by_rg(rg):
+        return ClientModel.query.filter_by(rg_number=rg).first()
 
     @staticmethod
     def get_by_id(id_client: int):

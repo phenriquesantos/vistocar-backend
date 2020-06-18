@@ -5,7 +5,7 @@ class VehicleModel(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
     brand: str = db.Column(db.String(30), nullable=False)
     model: str = db.Column(db.String(30), nullable=False)
-    board: str = db.Column(db.String(30), nullable=False)
+    board: str = db.Column(db.String(30), nullable=False, unique=True)
     year: str = db.Column(db.String(30), nullable=False)
 
     @staticmethod
