@@ -3,6 +3,8 @@ from flask_jwt_simple import jwt_required, get_jwt
 from flask_restful import Resource
 from models.report import ReportModel
 from models.client import ClientModel
+from models.vehicle import VehicleModel
+
 from datetime import date, datetime
 
 
@@ -99,13 +101,23 @@ class ReportDetailResource(Resource):
 
         if report is None:
             return {'message': 'report not found'}, 404
-        print(report)
+        
+        client = ClientModel.get_by_id(report.client_id)
+        vehicle = VehicleModel.get_by_id(report.vehicle_id)
 
         return {
             'id': report.id,
             'status': report.status,
             'client_id': report.client_id,
             'vehicle_id': report.vehicle_id,
+            'client': {
+                'id': client.id,
+                'first_name': client.first_name
+            },
+            'vehicle': {
+                'model': vehicle.model,
+                'board': vehicle.board
+            },
             'description': report.description
         }
 
