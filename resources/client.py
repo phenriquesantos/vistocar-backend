@@ -146,7 +146,10 @@ class ClientDetailResource(Resource):
     def delete(self, id):
         try:
             client = ClientModel.get_by_id(id)
+            vehicles = VehicleModel.get_by_client(id)
             client.delete()
+            for vehicle in vehicles:
+                vehicle.delete()
             return 'No Content', 204
 
         except Exception as e:
