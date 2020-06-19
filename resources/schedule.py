@@ -60,14 +60,26 @@ class ScheduleResource(Resource):
 
         return res
 
-        # return list(map(lambda scheduling: {
-        #     'id': scheduling.id,
-        #     'status': scheduling.status,
-        #     'client_id': scheduling.client_id,
-        #     'created_at': scheduling.created_at,
-        #     'date': scheduling.date.strftime("%d/%m/%y"),
-        #     'time': scheduling.time
-        # }, schedulings))
+    def _list_by_date(self, dt):
+        schedulings = ScheduleModel.get_by_date(dt)
+
+        res = []
+        for scheduling in schedulings:
+            client = ClientModel.get_by_id(scheduling.client_id)
+            res.append({
+                'id': scheduling.id,
+                'status': scheduling.status,
+                'client_id': scheduling.client_id,
+                'created_at': scheduling.created_at,
+                'date': scheduling.date.strftime("%d/%m/%y"),
+                'time': scheduling.time,
+                'client': {
+                    'id': client.id,
+                    'first_name': client.first_name,
+                }
+            })
+
+        return res
 
     # @jwt_required
     def get(self):
@@ -75,6 +87,14 @@ class ScheduleResource(Resource):
             if request.args.get('client_id'):
                 client_id = request.args.get('client_id')
                 return self._list_by_client(int(client_id))
+
+            if request.args.get('date'):
+                dt = request.args.get('date').split('-')
+                dt = date(int(dt[2]), int(dt[1]), int(dt[0]))
+                
+                print(dt)
+
+                return self._list_by_date(dt)
 
             return self._list_scheduling()
         except Exception as e:
@@ -86,12 +106,12 @@ class ScheduleResource(Resource):
         try:
             if item:
 
-                if VehicleModel().get_by_board(item['vehicle_board']):
-                    return f'The board "{item["vehicle_board"]}" is already in use.', 400
-
                 if 'vehicle_id' in item and item['vehicle_id'] != "0":
                     vehicle = VehicleModel.get_by_id(int(item['vehicle_id']))
                 else:
+                    if VehicleModel().get_by_board(item['vehicle_board']):
+                        return f'The board "{item["vehicle_board"]}" is already in use.', 400
+                    
                     vehicle = VehicleModel()
 
                 vehicle.client_id = int(item['client_id'])

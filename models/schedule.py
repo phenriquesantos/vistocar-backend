@@ -30,6 +30,10 @@ class ScheduleModel(db.Model):
         return ScheduleModel.query.filter_by(id=id).first()
 
     @staticmethod
+    def get_by_date(dt):
+        return ScheduleModel.query.filter_by(date=dt).all()
+
+    @staticmethod
     def list_all():
         return ScheduleModel.query.order_by(ScheduleModel.id).all()
 
