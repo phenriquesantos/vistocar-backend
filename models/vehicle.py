@@ -1,5 +1,6 @@
 from models import db
 
+
 class VehicleModel(db.Model):
     id: int = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))

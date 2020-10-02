@@ -80,8 +80,6 @@ class ClientResource(Resource):
             return f"{e}", 500
 
 
-
-
 class ClientDetailResource(Resource):
 
     def _get_client(self, id_client):

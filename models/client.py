@@ -48,7 +48,6 @@ class ClientModel(db.Model):
     def list_all():
         return ClientModel.query.all()
 
-
     def save(self):
         db.session.merge(self)
         db.session.commit()

@@ -1,9 +1,10 @@
 from models import db
 
+
 class ReportModel(db.Model):
     id: int = db.Column(db.Integer, primary_key=True)
     status: int = db.Column(db.Integer, nullable=False, default=0)
-    vehicle_id: int =  db.Column(db.Integer, nullable=False)
+    vehicle_id: int = db.Column(db.Integer, nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
     description: str = db.Column(db.String(3000), nullable=False)
     timestamp: str = db.Column(db.Date)

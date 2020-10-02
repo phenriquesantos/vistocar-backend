@@ -32,7 +32,8 @@ class AvailableTimesResource(Resource):
             '18:00'
         ]
         dt = dt.split('-')
-        times = ScheduleModel.filter_by_date(date(int(dt[2]), int(dt[1]), int(dt[0])))
+        times = ScheduleModel.filter_by_date(
+            date(int(dt[2]), int(dt[1]), int(dt[0])))
         for time in times:
             schedules.remove(time.time) if time.time in schedules else False
 
