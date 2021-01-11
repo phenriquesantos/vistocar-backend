@@ -12,7 +12,7 @@ class ReportResource(Resource):
 
     def _list_report(self):
         reports = ReportModel.list_all()
-        
+
         res = []
         for report in reports:
             client = ClientModel.get_by_id(report.client_id)
@@ -58,14 +58,14 @@ class ReportResource(Resource):
         #     'description': report.description
         # }, reports))
 
-
     # @jwt_required
+
     def get(self):
         try:
             if request.args.get('client_id'):
                 client_id = request.args.get('client_id')
                 return self._list_by_client(client_id)
-            
+
             return self._list_report()
         except Exception as e:
             print(e)
@@ -92,8 +92,6 @@ class ReportResource(Resource):
             return f"{e}", 500
 
 
-
-
 class ReportDetailResource(Resource):
 
     def _get_report(self, id_report):
@@ -101,7 +99,7 @@ class ReportDetailResource(Resource):
 
         if report is None:
             return {'message': 'report not found'}, 404
-        
+
         client = ClientModel.get_by_id(report.client_id)
         vehicle = VehicleModel.get_by_id(report.vehicle_id)
 

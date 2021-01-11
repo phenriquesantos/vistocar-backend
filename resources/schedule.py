@@ -91,7 +91,7 @@ class ScheduleResource(Resource):
             if request.args.get('date'):
                 dt = request.args.get('date').split('-')
                 dt = date(int(dt[2]), int(dt[1]), int(dt[0]))
-                
+
                 print(dt)
 
                 return self._list_by_date(dt)
@@ -111,7 +111,7 @@ class ScheduleResource(Resource):
                 else:
                     if VehicleModel().get_by_board(item['vehicle_board']):
                         return f'The board "{item["vehicle_board"]}" is already in use.', 400
-                    
+
                     vehicle = VehicleModel()
 
                 vehicle.client_id = int(item['client_id'])

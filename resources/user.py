@@ -46,13 +46,12 @@ class UserResource(Resource):
                 model.save()
                 user = model.get_by_email(item['email'])
 
-                return { 'status': 'created', 'id': user.id }, 201
+                return {'status': 'created', 'id': user.id}, 201
             else:
                 return 'not created, invalid payload', 400
         except Exception as e:
             print(e)
             return f"{e}", 500
-
 
 
 class UserDetailResource(Resource):
